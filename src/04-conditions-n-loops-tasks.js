@@ -28,7 +28,9 @@
  *
  */
 function getFizzBuzz(num) {
-  return (num % 3 === 0 && num % 5 === 0) ? 'FizzBuzz' : (num % 3 === 0) ? 'Fizz' : (num % 5 === 0) ? 'Buzz' : num;
+  // eslint-disable-next-line no-nested-ternary
+  const result = (num % 3 === 0 && num % 5 === 0) ? 'FizzBuzz' : (num % 3 === 0) ? 'Fizz' : (num % 5 === 0) ? 'Buzz' : num;
+  return result;
 }
 
 
@@ -44,7 +46,7 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-  return (n != 1) ? n * getFactorial(n - 1) : 1;
+  return (n !== 1) ? n * getFactorial(n - 1) : 1;
 }
 
 
@@ -61,7 +63,7 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-  return (Array.from({ length: (n2 - n1) + 1 }, (v, k) => k + n1)).reduce((acc, value) => acc + value);
+  return (Array.from({ length: (n2 - n1) + 1 }, (v, k) => k + n1)).reduce((acc, v) => acc + v);
 }
 
 
@@ -149,7 +151,9 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-  return Math.sqrt(Math.pow(point.x - circle.center.x, 2) + Math.pow(point.y - circle.center.y, 2)) < circle.radius;
+  const posX = (point.x - circle.center.x) ** 2;
+  const pos0 = (point.y - circle.center.y) ** 2;
+  return Math.sqrt(posX + pos0) < circle.radius;
 }
 
 
@@ -165,7 +169,7 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-  return ([...str].filter(x => str.match(new RegExp(x, 'g')).length === 1))[0] || null;
+  return ([...str].filter((x) => str.match(new RegExp(x, 'g')).length === 1))[0] || null;
 }
 
 
@@ -280,7 +284,7 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-  let value = ([...`${num}`].reduce((accumulator, currentValue) => accumulator + Number(currentValue), 0));
+  const value = ([...`${num}`].reduce((accumulator, currentValue) => accumulator + Number(currentValue), 0));
   return (value < 10) ? value : [...`${value}`].reduce((accumulator, currentValue) => accumulator + Number(currentValue), 0);
 }
 
@@ -312,18 +316,18 @@ function isBracketsBalanced(str) {
   }
   const count = Math.round(str.length / 2);
   const brackets = ['[]', '{}', '()', '<>'];
-  let new_str = str;
+  let newStr = str;
 
-  for (let i = 0; i <= count; i++) {
-
-    if (new_str.length > 1 && new_str.length !== 0) {
-      for (let bracket of brackets) {
-        new_str = new_str.replaceAll(bracket, '');
+  for (let i = 0; i <= count; i += 1) {
+    if (newStr.length > 1 && newStr.length !== 0) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const bracket of brackets) {
+        newStr = newStr.replaceAll(bracket, '');
       }
     }
   }
 
-  return (new_str.length === 0) ? true : false;
+  return (newStr.length === 0);
 }
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -366,14 +370,13 @@ function getCommonDirectoryPath(pathes) {
   const newPath = pathes.sort((a, b) => a.split('/').length - b.split('/').length).map((item) => item.split('/'));
   const start = newPath[0];
   let result = '';
-  for (let i = 0; i < start.length; i++) {
+  for (let i = 0; i < start.length; i += 1) {
     if (newPath.every((elem) => elem[i] === start[i])) {
       result = result.concat(start[i], '/');
     }
   }
   return result;
 }
-
 
 
 /**
@@ -395,13 +398,7 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-  return m1.map((row, i) =>
-    m2[0].map((_, j) =>
-      row.reduce((acc, _, n) =>
-        acc + m1[i][n] * m2[n][j], 0
-      )
-    )
-  )
+  return m1.map((r, i) => m2[0].map((k, j) => r.reduce((ac, _, n) => ac + m1[i][n] * m2[n][j], 0)));
 }
 
 
@@ -436,30 +433,36 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-  let positionX = '',
-    position0 = '',
-    win = ['012', '345', '678', '048', '246', '258', '147', '036'];
+  let posX = '';
+  let pos0 = '';
+  const win = ['012', '345', '678', '048', '246', '258', '147', '036'];
 
-  for (let i = 0; i < position.length; i++) {
-    for (let j = 0; j < position[i].length; j++) {
-      if (position[i][j] !== undefined && position[i][j] === 'X') {
-        (i === 0) ? positionX = positionX + j : (i === 1) ? positionX = positionX + (3 + j) : positionX = positionX + (6 + j);
+  for (let i = 0; i < position.length; i += 1) {
+    for (let j = 0; j < position[i].length; j += 1) {
+      if (position[i][j] === 'X') {
+        if (i === 0) { posX += j; } else if (i === 1) { posX += (3 + j); } else { posX += (6 + j); }
       }
-      if (!isNaN(position[i][j]) && position[i][j] === '0') {
-        (i === 0) ? position0 = position0 + j : (i === 1) ? position0 = position0 + (3 + j) : position0 = position0 + (6 + j);
+      if (position[i][j] === '0') {
+        if ((i === 0)) {
+          pos0 += j;
+        } else if (i === 1) {
+          pos0 += (3 + j);
+        } else {
+          pos0 += (6 + j);
+        }
       }
     }
   }
-  for (let i = 0; i < win.length; i++) {
-    if (positionX.includes(win[i][0]) && positionX.includes(win[i][1]) && positionX.includes(win[i][2])) {
+  for (let i = 0; i < win.length; i += 1) {
+    if (posX.includes(win[i][0]) && posX.includes(win[i][1]) && posX.includes(win[i][2])) {
       return 'X';
     }
-    if (position0.includes(win[i][0]) && position0.includes(win[i][1]) && position0.includes(win[i][2])) {
-      return '0'
+    if (pos0.includes(win[i][0]) && pos0.includes(win[i][1]) && pos0.includes(win[i][2])) {
+      return '0';
     }
   }
   return undefined;
-};
+}
 
 
 module.exports = {

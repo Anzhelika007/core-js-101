@@ -203,7 +203,7 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-  return '┌' + '─'.repeat(width - 2) + '┐\n' + ('│' + ' '.repeat(width - 2) + '│\n').repeat(height - 2) + '└' + '─'.repeat(width - 2) + '┘\n';
+  return `┌${'─'.repeat(width - 2)}┐\n${(`│${' '.repeat(width - 2)}│\n`).repeat(height - 2)}└${'─'.repeat(width - 2)}┘\n`;
 }
 
 
@@ -224,8 +224,8 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-  const map = Array.prototype.map;
-  return str_new = map.call(str, x => {
+  const { map } = Array.prototype;
+  return str_new = map.call(str, (x) => {
     if (x.charCodeAt(0) > 64 && x.charCodeAt(0) < 91) {
       if (x.charCodeAt(0) + 13 < 91) {
         return String.fromCharCode(x.charCodeAt(0) + 13);
@@ -288,7 +288,7 @@ function getCardId(value) {
   const coloda = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
     'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
     'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
-    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠']
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
   return coloda.indexOf(value);
 }
 

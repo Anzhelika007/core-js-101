@@ -225,7 +225,7 @@ function getRectangleString(width, height) {
  */
 function encodeToRot13(str) {
   const { map } = Array.prototype;
-  return str_new = map.call(str, (x) => {
+  return map.call(str, (x) => {
     if (x.charCodeAt(0) > 64 && x.charCodeAt(0) < 91) {
       if (x.charCodeAt(0) + 13 < 91) {
         return String.fromCharCode(x.charCodeAt(0) + 13);
